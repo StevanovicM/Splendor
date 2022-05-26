@@ -42,9 +42,14 @@ public class Card : MonoBehaviour
 
     public int CardPoints { get; set; }
 
+	public Card()
+	{
+
+	}
+
     public Card(string color, int points, int costblck, int costwhite, int costred, int costblue, int costgreen)
     {
-        CardColor = (int)Enum.Parse(typeof(CardTypes.CardColor), color);
+        CardColor = (int)Enum.Parse(typeof(Colors.Color), color);
         CardCostBlack = costblck;
         CardCostWhite = costwhite;
         CardCostRed = costred;
