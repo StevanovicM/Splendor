@@ -3,45 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//public bool hasBeenPlayed;
-
-//public int handIndex;
-
-//private GameManager gm;
-
-//private void Start()
-//{
-//    gm = FindObjectOfType<GameManager>();
-//}
-
-//private void OnMouseDown()
-//{
-//    if (hasBeenPlayed == false)
-//    {
-//        transform.position += Vector3.up * 5;
-//        hasBeenPlayed = true;
-//        gm.availableCardSlots[handIndex] = true;
-//        Invoke("MoveToDiscardPile", 2f);
-//    }
-//}
-
-//private void MoveToDiscardPile()
-//{
-//    gm.discardPile.Add(this);
-//    gameObject.SetActive(false);
-//}
-
 public class Card : MonoBehaviour
 {
 	public GameManager gm;
-    public Colors.Color CardColor;
-    public int CardPoints;
-    public int CardCostBlack;
-    public int CardCostWhite;
-    public int CardCostRed;
-    public int CardCostBlue;
-    public int CardCostGreen;
-    public int Index;
+	public Colors.Color CardColor;
+    	public int CardPoints;
+    	public int CardCostBlack;
+    	public int CardCostWhite;
+    	public int CardCostRed;
+    	public int CardCostBlue;
+    	public int CardCostGreen;
+    	public int Index;
 
     public Card()
 	{
@@ -103,9 +75,6 @@ public class Card : MonoBehaviour
 						gm.GetPlayer().WhiteCardSlotsAvailable[index] = true;
 						break;
 				}
-                // move to card to slot
-                //this.gameObject.transform.position = gm.player1CardSlots[index].position;
-                //            gm.availableCardSlotsPlayer1[index] = true;
 
 				// Replace cards
                 if (Index is >= 0 and < 4)
@@ -169,7 +138,6 @@ public class Card : MonoBehaviour
                         gm.BlackTokens[blackIndex].transform.position = gm.blackTokenSlot.position + new Vector3(((gm.BlackOffset + (float)0.3)*blackIndex), 0 , 0);
                         gm.BlackTokens[blackIndex].Available = true;
                         gm.BlackTokens[blackIndex].InPossession = null;
-                        //gm.BlackToken.NumberLeft += tmpCardCostBlack;
                     }
                 }
 
@@ -182,7 +150,6 @@ public class Card : MonoBehaviour
 						gm.WhiteTokens[whiteIndex].transform.position = gm.whiteTokenSlot.position + new Vector3(((gm.WhiteOffset + (float)0.3) * whiteIndex), 0, 0);
 						gm.WhiteTokens[whiteIndex].Available = true;
                         gm.WhiteTokens[whiteIndex].InPossession = null;
-                        //gm.WhiteToken.NumberLeft += tmpCardCostWhite;
                     }
                 }
 
@@ -195,7 +162,6 @@ public class Card : MonoBehaviour
 						gm.RedTokens[redIndex].transform.position = gm.redTokenSlot.position + new Vector3(((gm.RedOffset + (float)0.3) * redIndex), 0, 0);
 						gm.RedTokens[redIndex].Available = true;
                         gm.RedTokens[redIndex].InPossession = null;
-                        // gm.RedToken.NumberLeft += tmpCardCostRed;
                     }
                 }
 
@@ -208,7 +174,6 @@ public class Card : MonoBehaviour
 						gm.BlueTokens[blueIndex].transform.position = gm.blueTokenSlot.position + new Vector3(((gm.BlueOffset + (float)0.3) * blueIndex), 0, 0);
 						gm.BlueTokens[blueIndex].Available = true;
                         gm.BlueTokens[blueIndex].InPossession = null;
-                        // gm.BlueToken.NumberLeft += tmpCardCostBlue;
                     }
                 }
 
@@ -221,22 +186,8 @@ public class Card : MonoBehaviour
 						gm.GreenTokens[greenIndex].transform.position = gm.greenTokenSlot.position + new Vector3(((gm.GreenOffset + (float)0.3) * greenIndex), 0, 0);
 						gm.GreenTokens[greenIndex].Available = true;
                         gm.GreenTokens[greenIndex].InPossession = null;
-                        //  gm.GreenToken.NumberLeft += tmpCardCostGreen;
                     }
                 }
-
-
-                //if(gm.BlackToken.NumberLeft != 0)
-                //    gm.BlackToken.gameObject.SetActive(true);
-                //if (gm.WhiteToken.NumberLeft != 0)
-                //    gm.WhiteToken.gameObject.SetActive(true);
-                //if (gm.RedToken.NumberLeft != 0)
-                //    gm.RedToken.gameObject.SetActive(true);
-                //if (gm.BlueToken.NumberLeft != 0)
-                //    gm.BlueToken.gameObject.SetActive(true);
-                //if (gm.GreenToken.NumberLeft != 0)
-                //    gm.GreenToken.gameObject.SetActive(true);
-
 
                 // increase the player points and card count
                 gm.GetPlayer().Points += CardPoints;
