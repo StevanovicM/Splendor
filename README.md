@@ -3,7 +3,7 @@
 Project in Unity and C#, clone of the card game Splendor
 
 Still in development,
-You can try it out[here](https://stevanovicm.github.io/Splendor/)
+You can try it out [here](https://stevanovicm.github.io/Splendor/)
 
 
 
