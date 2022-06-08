@@ -56,13 +56,23 @@
     <Analyzer Include="C:\Program Files\Microsoft Visual Studio\2022Pro\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\Deck 2.cs" />
-    <Compile Include="Assets\Scripts\Deck 1.cs" />
-    <Compile Include="Assets\Scripts\GameManager.cs" />
+    <Compile Include="Assets\Scripts\Colors.cs" />
+    <Compile Include="Assets\Scripts\NobleCard.cs" />
     <Compile Include="Assets\Scripts\Deck 3.cs" />
+    <Compile Include="Assets\Scripts\Counter.cs" />
+    <Compile Include="Assets\Scripts\CameraRotator.cs" />
+    <Compile Include="Assets\Scripts\Deck 2.cs" />
+    <Compile Include="Assets\Scripts\SmoothFollow.cs" />
+    <Compile Include="Assets\Scripts\GameManager.cs" />
+    <Compile Include="Assets\Scripts\TurnSystem.cs" />
     <Compile Include="Assets\Scripts\CardTypes.cs" />
+    <Compile Include="Assets\Scripts\Player.cs" />
+    <Compile Include="Assets\Scripts\MainMenu.cs" />
+    <Compile Include="Assets\Scripts\OptionsMenu.cs" />
+    <Compile Include="Assets\Scripts\Token.cs" />
     <Compile Include="Assets\Scripts\CursorFollow.cs" />
     <Compile Include="Assets\Scripts\Card.cs" />
+    <Compile Include="Assets\Scripts\Deck 1.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
