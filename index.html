@@ -9,11 +9,7 @@
   </head>
   <body>
     <div id="unity-container" class="unity-desktop">
-<<<<<<< HEAD
       <canvas id="unity-canvas" width=960 height=600></canvas>
-=======
-      <canvas id="unity-canvas" width=1920 height=1080></canvas>
->>>>>>> 3aa6719ca1548956178ecf78eb25f1ce1e71b46f
       <div id="unity-loading-bar">
         <div id="unity-logo"></div>
         <div id="unity-progress-bar-empty">
@@ -60,11 +56,11 @@
       }
 
       var buildUrl = "Build";
-      var loaderUrl = buildUrl + "/New folder.loader.js";
+      var loaderUrl = buildUrl + "/Splendor.loader.js";
       var config = {
-        dataUrl: buildUrl + "/New folder.data",
-        frameworkUrl: buildUrl + "/New folder.framework.js",
-        codeUrl: buildUrl + "/New folder.wasm",
+        dataUrl: buildUrl + "/Splendor.data",
+        frameworkUrl: buildUrl + "/Splendor.framework.js",
+        codeUrl: buildUrl + "/Splendor.wasm",
         streamingAssetsUrl: "StreamingAssets",
         companyName: "DefaultCompany",
         productName: "Splendor",
@@ -99,13 +95,8 @@
       } else {
         // Desktop style: Render the game canvas in a window that can be maximized to fullscreen:
 
-<<<<<<< HEAD
         canvas.style.width = "960px";
         canvas.style.height = "600px";
-=======
-        canvas.style.width = "1920px";
-        canvas.style.height = "1080px";
->>>>>>> 3aa6719ca1548956178ecf78eb25f1ce1e71b46f
       }
 
       loadingBar.style.display = "block";
