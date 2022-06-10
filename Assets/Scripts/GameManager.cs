@@ -2,9 +2,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts;
 using TMPro;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -28,9 +27,6 @@ public class GameManager : MonoBehaviour
 	public TMP_Text BlueCards;
 	public TMP_Text RedCards;
 	public TMP_Text WhiteCards;
-	public TMP_Text GoldCards;
-	private Player PotentialWinner;
-
 
 	public Transform greenTokenSlot;
 	public Transform blackTokenSlot;
@@ -45,20 +41,25 @@ public class GameManager : MonoBehaviour
 	public float WhiteOffset = 0;
 	public float GoldOffset = 0;
 
-
 	public Transform[] cardSlots = new Transform[12];
 	public Transform[] nobleCardSlots = new Transform[5];
 	public bool[] availableCardSlotsDeck1;
 	public bool[] availableCardSlotsDeck2;
 	public bool[] availableCardSlotsDeck3;
 
-
-	public  Player player1;
-	public  Player player2;
-	public  Player player3;
-	public  Player player4;
+	public Player player1;
+	public Player player2;
+	public Player player3;
+	public Player player4;
+	public Player potentialWinner;
 
 	public static List<Player> players = new();
+
+    public GameObject QuitPanel;
+	public GameObject EndGamePanel;
+	public TMP_Text FirstPlace;
+	public TMP_Text SecondPlace;
+	public TMP_Text ThirdPlace;
 
 	private void Start()
 	{
@@ -99,9 +100,20 @@ public class GameManager : MonoBehaviour
 
 	private void BeginLastTurn()
 	{
-		// Not finished
-		PotentialWinner = GetPlayer();
-		PlayerTurn.text = "Winner: " + PotentialWinner.name + "!! " + PotentialWinner.Points + " points";
+		GetPlayer().isPotentialWinner = true;
+	}
+
+	private void EndGame()
+    {
+		List<Player> sortedPlayers = players.OrderByDescending(x => x.Points).ToList();
+		// Remove current tables
+		foreach (Player player in players)
+			player.PlayerTable.SetActive(false);
+
+		EndGamePanel.gameObject.SetActive(true);
+		FirstPlace.text += sortedPlayers[0].Name + " (" + sortedPlayers[0].Points +  " points)";
+		SecondPlace.text += sortedPlayers[1].Name + " (" + sortedPlayers[1].Points + " points)";
+		ThirdPlace.text += sortedPlayers[2].Name + " (" + sortedPlayers[2].Points + " points)";
 	}
 
 	private void Update()
@@ -115,12 +127,22 @@ public class GameManager : MonoBehaviour
 		BlueCards.text = GetPlayer().BlueCards + " Blue cards";
 
 		if (Input.GetKeyDown(KeyCode.Escape))
-		{
-			Application.Quit();
-		}
+        {
+            QuitPanel.gameObject.SetActive(!QuitPanel.gameObject.activeSelf);
+        }
 	}
 
-	public List<Card> Shuffle(List<Card> deck)
+    public void Quit()
+    {
+		Application.Quit();
+    }
+
+    public void NewGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+	}
+
+    public List<Card> Shuffle(List<Card> deck)
 	{
 		List<Card> shuffledDeck = new List<Card>();
 		while (deck.Count > 0)
@@ -140,6 +162,9 @@ public class GameManager : MonoBehaviour
 			player1.gameObject.SetActive(true);
 			player1.Name = OptionsMenu.Player1Name;
 			players.Add(player1);
+			player1.PlayerTable.gameObject.SetActive(true);
+			player1.PlayerNameTableText.gameObject.SetActive(true);
+			player1.PlayerNameTableText.text = player1.Name;
 		}
 
 		if (OptionsMenu.Player2Active)
@@ -147,6 +172,9 @@ public class GameManager : MonoBehaviour
 			player2.gameObject.SetActive(true);
 			player2.Name = OptionsMenu.Player2Name;
 			players.Add(player2);
+			player2.PlayerTable.gameObject.SetActive(true);
+			player2.PlayerNameTableText.gameObject.SetActive(true);
+			player2.PlayerNameTableText.text = player2.Name;			
 		}
 
 		if (OptionsMenu.Player3Active)
@@ -154,12 +182,18 @@ public class GameManager : MonoBehaviour
 			player3.gameObject.SetActive(true);
 			player3.Name = OptionsMenu.Player3Name;
 			players.Add(player3);
+			player3.PlayerTable.gameObject.SetActive(true);
+			player3.PlayerNameTableText.gameObject.SetActive(true);
+			player3.PlayerNameTableText.text = player3.Name;
 		}
 		if (OptionsMenu.Player4Active)
 		{
 			player4.gameObject.SetActive(true);
 			player4.Name = OptionsMenu.Player4Name;
 			players.Add(player4);
+			player4.PlayerTable.gameObject.SetActive(true);
+			player4.PlayerNameTableText.gameObject.SetActive(true);
+			player4.PlayerNameTableText.text = player4.Name;
 		}
 		if (players.Count == 2)
 		{
@@ -169,7 +203,7 @@ public class GameManager : MonoBehaviour
 			RedTokens.RemoveRange(RedTokens.Count - 3, 3);
 			BlueTokens.RemoveRange(BlueTokens.Count - 3, 3);
 
-			// Reveal 3 noble cards
+			DrawNobleCards(2);
 		}
 		else if (players.Count == 3)
 		{
@@ -179,10 +213,14 @@ public class GameManager : MonoBehaviour
 			RedTokens.RemoveRange(RedTokens.Count - 2, 2);
 			BlueTokens.RemoveRange(BlueTokens.Count - 2, 2);
 
-			// Reveal 4 noble cards
+			DrawNobleCards(3);
 		}
-		
-	}
+        else
+        {
+            DrawNobleCards(4);
+        }
+
+    }
 
 	public void DrawInitialCards()
 	{
@@ -206,6 +244,31 @@ public class GameManager : MonoBehaviour
 			DrawCard(deck3, cardSlots[i], i);
             availableCardSlotsDeck3[i - 8] = false;
 		}
+	}
+
+    public void DrawNobleCards(int playerNumber)
+    {
+        if (playerNumber == 2)
+        {
+            for (int i = 0; i < 3; i++)
+            {
+				DrawCard(nobleDeck, nobleCardSlots[i], i);
+            }
+        }
+        if (playerNumber == 3)
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                DrawCard(nobleDeck, nobleCardSlots[i], i);
+            }
+        }
+        if (playerNumber == 4)
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                DrawCard(nobleDeck, nobleCardSlots[i], i);
+            }
+        }
 	}
 
     private void PutTokensInPositions()
@@ -312,6 +375,14 @@ public class GameManager : MonoBehaviour
 					if (!GetPlayer().WhiteCardSlotsAvailable[i])
 						return i;
 				}
+
+				break;
+			case Colors.Color.Noble:
+				for(int i = 0; i < GetPlayer().NobleCardSlotsAvailable.Length; i++)
+                {
+					if (!GetPlayer().WhiteCardSlotsAvailable[i])
+						return i;
+                }
 
 				break;
 		}
@@ -503,18 +574,30 @@ public class GameManager : MonoBehaviour
 			previousPlayer.IsTurn = false;
 			if (player2.gameObject.activeSelf)
 			{
+				if(player2.isPotentialWinner)
+                {
+					EndGame();
+                }
 				player2.IsTurn = true;
 				return;
 			}
 
 			if (player3.gameObject.activeSelf)
 			{
+				if (player3.isPotentialWinner)
+				{
+					EndGame();
+				}
 				player3.IsTurn = true;
 				return;
 			}
 
 			if (player4.gameObject.activeSelf)
 			{
+				if (player4.isPotentialWinner)
+				{
+					EndGame();
+				}
 				player4.IsTurn = true;
 				return;				
 			}
@@ -525,18 +608,30 @@ public class GameManager : MonoBehaviour
 			previousPlayer.IsTurn = false;
 			if (player3.gameObject.activeSelf)
 			{
+				if (player3.isPotentialWinner)
+				{
+					EndGame();
+				}
 				player3.IsTurn = true;
 				return;
 			}
 
 			if (player4.gameObject.activeSelf)
 			{
+				if (player4.isPotentialWinner)
+				{
+					EndGame();
+				}
 				player4.IsTurn = true;
 				return;
 			}
 			
 			if (player1.gameObject.activeSelf)
 			{
+				if (player1.isPotentialWinner)
+				{
+					EndGame();
+				}
 				player1.IsTurn = true;
 				return;
 			}
@@ -547,18 +642,30 @@ public class GameManager : MonoBehaviour
 			previousPlayer.IsTurn = false;
 			if (player4.gameObject.activeSelf)
 			{
+				if (player4.isPotentialWinner)
+				{
+					EndGame();
+				}
 				player4.IsTurn = true;
 				return;
 			}
 			
 			if (player1.gameObject.activeSelf)
 			{
+				if (player1.isPotentialWinner)
+				{
+					EndGame();
+				}
 				player1.IsTurn = true;
 				return;
 			}
 
 			if (player2.gameObject.activeSelf)
 			{
+				if (player2.isPotentialWinner)
+				{
+					EndGame();
+				}
 				player2.IsTurn = true;
 				return;
 			}
@@ -568,18 +675,30 @@ public class GameManager : MonoBehaviour
 		{
 			if (player1.gameObject.activeSelf)
 			{
+				if (player1.isPotentialWinner)
+				{
+					EndGame();
+				}
 				player1.IsTurn = true;
 				return;
 			}
 
 			if (player2.gameObject.activeSelf)
 			{
+				if (player2.isPotentialWinner)
+				{
+					EndGame();
+				}
 				player2.IsTurn = true;
 				return;
 			}
 
 			if (player3.gameObject.activeSelf)
 			{
+				if (player3.isPotentialWinner)
+				{
+					EndGame();
+				}
 				player3.IsTurn = true;
 				return;				
 			}

@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TMPro;
 using UnityEngine;
 
 namespace Assets.Scripts
@@ -24,6 +25,7 @@ namespace Assets.Scripts
 		public Token thirdToken;
 		public List<Card> ReservedCards;
 		public bool IsTurn = false;
+        public bool isPotentialWinner = false;
 		public bool PlayedCard = false;
 		public bool TookTokens = false;
 
@@ -40,6 +42,7 @@ namespace Assets.Scripts
         public Transform whiteTokenSlot;
         public Transform goldTokenSlot;
 
+
 		public float GreenOffset = 0;
 		public float BlackOffset = 0;
 		public float BlueOffset = 0;
@@ -52,12 +55,17 @@ namespace Assets.Scripts
 		public Transform[] BlueCardSlots;
 		public Transform[] RedCardSlots;
 		public Transform[] WhiteCardSlots;
+        public Transform[] NobleCardSlots;
 
 		public bool[] GreenCardSlotsAvailable;
 		public bool[] BlackCardSlotsAvailable;
 		public bool[] BlueCardSlotsAvailable;
 		public bool[] RedCardSlotsAvailable;
 		public bool[] WhiteCardSlotsAvailable;
+        public bool[] NobleCardSlotsAvailable;
+
+		public GameObject PlayerTable;
+		public TMP_Text PlayerNameTableText;
 
 		public Player()
         {
