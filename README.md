@@ -1,4 +1,4 @@
-# Marvel
+# Splendor Marvel edition
 
 Project in Unity and C#, clone of the card game Splendor with Marvel edition cards
 
